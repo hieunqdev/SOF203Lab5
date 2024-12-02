@@ -4,6 +4,17 @@
  */
 package View;
 
+import DAO.StudentDAO;
+import Model.Student;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
@@ -49,7 +60,7 @@ public class MainForm extends javax.swing.JFrame {
         txtAreaDiaChi = new javax.swing.JTextArea();
         btnRead = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableStudent = new javax.swing.JTable();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -84,6 +95,11 @@ public class MainForm extends javax.swing.JFrame {
         jLabel7.setText("Địa chỉ");
 
         btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         btnDelete.setText("Delete");
 
@@ -106,7 +122,7 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableStudent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
                 {null, null, null, null, null, null},
@@ -117,7 +133,7 @@ public class MainForm extends javax.swing.JFrame {
                 "Mã Sinh Viên", "Họ Tên", "Email", "SĐT", "Giới Tính", "Địa chỉ"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(tableStudent);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,10 +206,11 @@ public class MainForm extends javax.swing.JFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDelete)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -203,7 +220,7 @@ public class MainForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -212,8 +229,38 @@ public class MainForm extends javax.swing.JFrame {
 
     private void btnReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReadActionPerformed
         // TODO add your handling code here:
-        
+        try (Connection con = DriverManager.getConnection(
+        "jdbc:sqlserver://localhost:1433;databaseName=Hieunq23_QLSV;"
+                + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
+                + "trustServerCertificate=true")) {
+            
+            StudentDAO studentDao = new StudentDAO(con);
+            List<Student> studentLst = studentDao.readStudent();
+
+            // Đảm bảo tableStudent đã được khởi tạo và có kiểu DefaultTableModel
+            DefaultTableModel tableStudent = (DefaultTableModel) this.tableStudent.getModel();
+            tableStudent.setRowCount(0); // Xóa tất cả các dòng hiện tại trong bảng
+
+            for (Student student : studentLst) {
+                tableStudent.addRow(new Object[] {
+                    student.getMaSV(),
+                    student.getHoTen(),
+                    student.getEmail(),
+                    student.getSoDT(),
+                    student.getDiaChi(),
+                    student.isGioitinh() ? "Nam" : "Nữ"
+                });
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // In chi tiết lỗi ra console
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL: " + e.getMessage());
+        }
+
     }//GEN-LAST:event_btnReadActionPerformed
+
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCreateActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,9 +314,9 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JRadioButton rdoNam;
     private javax.swing.JRadioButton rdoNu;
+    private javax.swing.JTable tableStudent;
     private javax.swing.JTextArea txtAreaDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHoTen;
