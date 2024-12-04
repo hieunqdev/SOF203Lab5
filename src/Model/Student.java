@@ -1,20 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Model;
 
-/**
- *
- * @author Admin
- */
+// Lớp Student đại diện cho bảng STUDENTS trong CSDL
 public class Student {
-    String MaSV;
-    String HoTen;
-    String Email;
-    String SoDT;
-    boolean Gioitinh;
-    String DiaChi;
+    String MaSV; // -> cột MaSV NVARCHAR trong CSDL
+    String HoTen; // -> cột HoTen NVARCHAR trong CSDL
+    String Email; // -> cột Email NVARCHAR trong CSDL
+    String SoDT; // -> cột SoDT NVARCHAR trong CSDL
+    boolean Gioitinh; // -> cột Gioitinh BIT trong CSDL
+    String DiaChi; // -> cột DiaChi NVARCHAR trong CSDL
 
     public Student() {
     }

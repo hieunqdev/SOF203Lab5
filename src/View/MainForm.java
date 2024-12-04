@@ -275,11 +275,11 @@ public class MainForm extends javax.swing.JFrame {
                 + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
                 + "trustServerCertificate=true")) {
             
-            String maSV = txtMaSV.getText().trim();
-            String hoTen = txtHoTen.getText().trim();
-            String email = txtEmail.getText().trim();
-            String soDT = txtSDT.getText().trim();
-            String diaChi = txtAreaDiaChi.getText().trim();
+            String maSV = txtMaSV.getText();
+            String hoTen = txtHoTen.getText();
+            String email = txtEmail.getText();
+            String soDT = txtSDT.getText();
+            String diaChi = txtAreaDiaChi.getText();
             boolean gioiTinh = rdoNam.isSelected(); 
             
             StudentDAO studentDao = new StudentDAO(con);
@@ -298,11 +298,11 @@ public class MainForm extends javax.swing.JFrame {
                 + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
                 + "trustServerCertificate=true")) {
             
-            String maSV = txtMaSV.getText().trim();
-            String hoTen = txtHoTen.getText().trim();
-            String email = txtEmail.getText().trim();
-            String soDT = txtSDT.getText().trim();
-            String diaChi = txtAreaDiaChi.getText().trim();
+            String maSV = txtMaSV.getText();
+            String hoTen = txtHoTen.getText();
+            String email = txtEmail.getText();
+            String soDT = txtSDT.getText();
+            String diaChi = txtAreaDiaChi.getText();
             boolean gioiTinh = rdoNam.isSelected(); 
             
             StudentDAO studentDao = new StudentDAO(con);
@@ -322,7 +322,7 @@ public class MainForm extends javax.swing.JFrame {
                 + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
                 + "trustServerCertificate=true")) {
             
-            String maSV = txtMaSV.getText().trim();
+            String maSV = txtMaSV.getText();
 
             StudentDAO studentDao = new StudentDAO(con);
             studentDao.deleteStudent(maSV);
