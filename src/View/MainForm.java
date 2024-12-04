@@ -308,7 +308,6 @@ public class MainForm extends javax.swing.JFrame {
             StudentDAO studentDao = new StudentDAO(con);
             Student student = new Student(maSV, hoTen, email, soDT, gioiTinh, diaChi);
             studentDao.updateStudent(student);
-            System.out.println(student.isGioitinh());
         } catch (SQLException e) {
             e.printStackTrace(); // In chi tiết lỗi ra console
             JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL: " + e.getMessage());
