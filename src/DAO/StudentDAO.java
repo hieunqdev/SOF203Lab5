@@ -44,4 +44,53 @@ public class StudentDAO {
              return studentLst;
         }
     }
+    
+    public void createStudent(Student student) {
+        String sql = "INSERT INTO STUDENTS "
+                + "VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setString(1, student.getMaSV());         
+            ps.setString(2, student.getHoTen());        
+            ps.setString(3, student.getEmail());        
+            ps.setString(4, student.getSoDT());         
+            ps.setBoolean(5, student.isGioitinh());     
+            ps.setString(6, student.getDiaChi()); 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateStudent(Student student) {
+        String sql = "UPDATE STUDENTS "
+                + "SET "
+                + "HoTen = ?, "
+                + "Email = ?, "
+                + "SoDT = ?, "
+                + "GioiTinh = ?, "
+                + "DiaChi = ? "
+                + "WHERE MaSV = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){        
+            ps.setString(1, student.getHoTen());        
+            ps.setString(2, student.getEmail()); 
+            ps.setString(3, student.getSoDT());  
+            ps.setBoolean(4, student.isGioitinh()); 
+            ps.setString(5, student.getDiaChi()); 
+            ps.setString(6, student.getMaSV()); 
+            System.out.println(ps.executeUpdate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void deleteStudent(String maSV) {
+        String sql = "DELETE FROM STUDENTS "
+                + "WHERE MaSV = ?  ";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){        
+            ps.setString(1, maSV); 
+            System.out.println(ps.executeUpdate());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

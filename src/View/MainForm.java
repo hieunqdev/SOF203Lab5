@@ -102,8 +102,18 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(rdoNam);
         rdoNam.setText("Nam");
@@ -247,8 +257,8 @@ public class MainForm extends javax.swing.JFrame {
                     student.getHoTen(),
                     student.getEmail(),
                     student.getSoDT(),
-                    student.getDiaChi(),
-                    student.isGioitinh() ? "Nam" : "Nữ"
+                    student.isGioitinh() ? "Nam" : "Nữ",
+                    student.getDiaChi()
                 });
             }
         } catch (SQLException e) {
@@ -259,8 +269,69 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReadActionPerformed
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-        // TODO add your handling code here:
+
+        try (Connection con = DriverManager.getConnection(
+        "jdbc:sqlserver://localhost:1433;databaseName=Hieunq23_QLSV;"
+                + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
+                + "trustServerCertificate=true")) {
+            
+            String maSV = txtMaSV.getText().trim();
+            String hoTen = txtHoTen.getText().trim();
+            String email = txtEmail.getText().trim();
+            String soDT = txtSDT.getText().trim();
+            String diaChi = txtAreaDiaChi.getText().trim();
+            boolean gioiTinh = rdoNam.isSelected(); 
+            
+            StudentDAO studentDao = new StudentDAO(con);
+            Student student = new Student(maSV, hoTen, email, soDT, gioiTinh, diaChi);
+            studentDao.createStudent(student);
+        } catch (SQLException e) {
+            e.printStackTrace(); // In chi tiết lỗi ra console
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnCreateActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        try (Connection con = DriverManager.getConnection(
+        "jdbc:sqlserver://localhost:1433;databaseName=Hieunq23_QLSV;"
+                + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
+                + "trustServerCertificate=true")) {
+            
+            String maSV = txtMaSV.getText().trim();
+            String hoTen = txtHoTen.getText().trim();
+            String email = txtEmail.getText().trim();
+            String soDT = txtSDT.getText().trim();
+            String diaChi = txtAreaDiaChi.getText().trim();
+            boolean gioiTinh = rdoNam.isSelected(); 
+            
+            StudentDAO studentDao = new StudentDAO(con);
+            Student student = new Student(maSV, hoTen, email, soDT, gioiTinh, diaChi);
+            studentDao.updateStudent(student);
+            System.out.println(student.getDiaChi());
+        } catch (SQLException e) {
+            e.printStackTrace(); // In chi tiết lỗi ra console
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        try (Connection con = DriverManager.getConnection(
+        "jdbc:sqlserver://localhost:1433;databaseName=Hieunq23_QLSV;"
+                + "user=sa;password=1234;instanceName=Admin\\SQLEXPRESS;encrypt=true;"
+                + "trustServerCertificate=true")) {
+            
+            String maSV = txtMaSV.getText().trim();
+
+            StudentDAO studentDao = new StudentDAO(con);
+            studentDao.deleteStudent(maSV);
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // In chi tiết lỗi ra console
+            JOptionPane.showMessageDialog(this, "Lỗi kết nối CSDL: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
