@@ -46,7 +46,8 @@ public class StudentDAO {
     public void createStudent(Student student) {
         // Chú ý: đổi tên STUDENTS = tên bảng trong CSDL
         // (?, ?, ?, ?, ?, ?) = phải truyền giá trị tương ứng với các cột trong CSDL từ trên xuống dưới
-        String sql = "INSERT INTO STUDENTS"
+        // Chú ý "INSERT INTO STUDENTS " phải có dấu cách sau STUDENTS
+        String sql = "INSERT INTO STUDENTS "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setString(1, student.getMaSV());         
@@ -54,7 +55,9 @@ public class StudentDAO {
             ps.setString(3, student.getEmail());        
             ps.setString(4, student.getSoDT());         
             ps.setBoolean(5, student.isGioitinh());     
-            ps.setString(6, student.getDiaChi()); 
+            ps.setString(6, student.getDiaChi());
+            //   Thực hiện truy vấn SQL và về dữ liệu
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,6 +83,8 @@ public class StudentDAO {
             ps.setBoolean(4, student.isGioitinh()); 
             ps.setString(5, student.getDiaChi()); 
             ps.setString(6, student.getMaSV()); 
+            //   Thực hiện truy vấn SQL và về dữ liệu
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,6 +98,8 @@ public class StudentDAO {
                 + "WHERE MaSV = ?  ";
         try (PreparedStatement ps = connection.prepareStatement(sql)){        
             ps.setString(1, maSV); 
+            //   Thực hiện truy vấn SQL và về dữ liệu
+            ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
